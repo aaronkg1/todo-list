@@ -1,12 +1,23 @@
-import {Todo, Project} from "./todo-modules.js";
+import {Project} from "./todo-modules.js";
+import {projectArray, activeProject, saveLocally, oldArray} from "./local-storage.js";
+import { parseISO, format, isDate, isBefore } from "date-fns";
 
-export {newProject, createProjectList, hideProjectList, viewProject, addTask}
+export {buttonInit}
 
 const projectList = document.querySelector('.projects');
 const expandButton = document.querySelector('#expand');
-let activeProject;
+const addSubtask = document.querySelector('#new-task');
+const taskModule = document.querySelector('.task-module-container');
+const addProjectButton = document.querySelector('#add-project');
+const cancelAddTask = document.querySelector('#cancel');
+const addTaskToProject = document.querySelector('#add-task');
+
 
 const newProject = (array) => {
+    if (localStorage.getItem('array') == null) {
+        localStorage.setItem('array', '[]'); 
+    }
+    
 const emptyProject = document.createElement('div');
 emptyProject.classList.add('project');
 const titleInput = document.createElement('input');
@@ -15,9 +26,17 @@ emptyProject.appendChild(titleInput);
 projectList.appendChild(emptyProject);
 emptyProject.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
+       for (let i=0; i < array.length; i++) {
+          if (array[i].getTitle() == titleInput.value) {
+              alert('Project name already used')
+              return
+          }
+       }
+
+
         array.push(Project(titleInput.value));
+        
         createProjectList(array);
-        console.log(array);
     }
 })
 projectList.classList.remove('hidden');
@@ -40,6 +59,9 @@ const createProjectList = (array) => {
     project.appendChild(projectRadioBtn);
     project.appendChild(projectTitle);
     projectList.appendChild(project);
+    if (projectTitle.textContent == activeProject.getTitle()) {
+        projectRadioBtn.innerText = 'radio_button_checked';
+    }
     project.addEventListener('click', () => {
         const radiobuttons = document.querySelectorAll('.radio-button');
         radiobuttons.forEach(button => {
@@ -71,7 +93,7 @@ const viewProject = () => {
     const taskTable = document.querySelector('.project-table');
 
     taskTable.innerHTML = '';
-
+    addSubtask.classList.remove('hidden');
     const tableHead = document.createElement('thead');
     const headRow = document.createElement('tr');
     const taskHead = document.createElement('th');
@@ -84,6 +106,8 @@ const viewProject = () => {
     priorityHead.textContent = 'Priority';
     const completedHead = document.createElement('th');
     completedHead.textContent = 'Completed?';
+    const extendDueDate = document.createElement('th');
+    extendDueDate.textContent = 'Extend Deadline?';
 
     tableHead.appendChild(headRow);
     headRow.appendChild(taskHead);
@@ -91,6 +115,7 @@ const viewProject = () => {
     headRow.appendChild(dateHead);
     headRow.appendChild(priorityHead);
     headRow.appendChild(completedHead);
+    headRow.appendChild(extendDueDate);
     taskTable.appendChild(tableHead);
 
    if (activeProject.getSubtasks()[0] == undefined) {
@@ -103,7 +128,7 @@ const viewProject = () => {
         const description = document.createElement('td')
         const dueDate = document.createElement('td')
         const datePicker = document.createElement('input');
-        datePicker.setAttribute('type', 'date');
+        datePicker.setAttribute('type', 'datetime-local');
         datePicker.classList.add('date-picker');
         const priority = document.createElement('td');
         const priorityInput = document.createElement('select');
@@ -127,30 +152,44 @@ const viewProject = () => {
         const checkbox = document.createElement('input');
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('name', 'subtask');
+        checkbox.checked = true|false;
         completed.appendChild(checkbox);
         const taskTitle = subtask.getTitle();
         const taskDescription = subtask.getDescription();
         dueDate.appendChild(datePicker);
-        const taskDueDate = subtask.getDueDate();
+        let taskDueDate = format(subtask.getDueDate(), 'yyyy-MM-dd\'T\'HH:mm');
         const taskPriority = subtask.getPriority();
         title.textContent = taskTitle;
         description.textContent = taskDescription;
         datePicker.value = taskDueDate;
         priorityInput.value = taskPriority;
+        checkbox.checked = subtask.getCompleted();
+        const extendButton = document.createElement('button');
+        extendButton.textContent = '1 hour';
         tableRow.appendChild(title);
         tableRow.appendChild(description);
         tableRow.appendChild(dueDate);
         tableRow.appendChild(priority);
         tableRow.appendChild(completed);
+        tableRow.appendChild(extendButton);
         taskTable.appendChild(tableRow);
 
         datePicker.addEventListener('change', () => {
             subtask.setDueDate(datePicker.value);
+            console.log(datePicker.value);
         })
         priority.addEventListener('change', () => {
             console.log(priorityInput.value);
             subtask.setPriority(priorityInput.value);
         } )
+        checkbox.addEventListener('change', () => {
+            subtask.setCompleted(checkbox.value);
+        })
+        extendButton.addEventListener('click', () => {
+            subtask.extendDueDate();
+            datePicker.value = format(subtask.getDueDate(), 'yyyy-MM-dd\'T\'HH:mm');
+            
+        })
     });  
 }
 
@@ -159,6 +198,13 @@ const addTask = () => {
     const description = document.querySelector('#description');
     const dueDate = document.querySelector('#due-date');
     const priority = document.querySelector('#priority');
+
+    if (isBefore(parseISO(dueDate.value), parseISO(new Date()))) {
+        alert('Deadline must be after current time');
+    }
+    
+    else if (isDate(parseISO(dueDate.value))) {
+        
     activeProject.addSubtask(`${title.value}`, `${description.value}`, `${dueDate.value}`, `${priority.value}`, 'false');
     console.log(`${title.value}`, `${description.value}`, `${dueDate.value}`, `${priority.value}`, 'false');
     title.value = '';
@@ -167,4 +213,35 @@ const addTask = () => {
     priority.value = '';
 }
 
+}
 
+const buttonInit = () => {
+    hideProjectList();
+    
+    addProjectButton.addEventListener('click', () => {
+        newProject(projectArray);
+    })
+    
+    addSubtask.addEventListener('click', () => {
+            taskModule.classList.remove('hidden');
+        })
+  
+    addTaskToProject.addEventListener('click', () => {
+        addTask();
+        viewProject();
+            taskModule.classList.add('hidden');
+        })
+
+     cancelAddTask.addEventListener('click', () => {
+         taskModule.classList.add('hidden');
+     } )   
+    
+}
+
+
+projectArray.push(Project('Default'));
+projectArray.push(Project('Beans'));
+projectArray[0].addSubtask('Annoy Rohan', 'Tell him COD is the best game ever made', '2022-03-26T15:24', 'High', 'False');
+projectArray[1].addSubtask('Cook Beans', 'Cook Em', '2022-03-26T15:24', 'Low', 'False');
+createProjectList(projectArray);
+viewProject(projectArray[0]);

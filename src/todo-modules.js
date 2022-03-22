@@ -1,18 +1,20 @@
-export {Todo, Project}
+import { addHours, parseISO } from "date-fns";
+export {Project, Todo}
 
 
 const basicMethods = (state) => {
     const methods = {
 setTitle: (newTitle) => state.title = newTitle,
 setDescription: (newDescription) => state.description = newDescription,
-setDueDate: (newDueDate) =>  state.dueDate = newDueDate,
+setDueDate: (newDueDate) =>  state.dueDate = parseISO(newDueDate),
 setPriority: (newPriority) =>  state.priority = newPriority,
 getTitle: () => state.title,
 getDescription: () => state.description,
 getDueDate: () => state.dueDate,
 getPriority: () =>  state.priority,
-initCompleted: () => state.completed = false,
-toggleCompleted: () => state.completed = !state.completed,
+setCompleted: (boolean) => state.completed = boolean,
+getCompleted: () => state.completed,
+extendDueDate: () => state.dueDate = addHours(state.dueDate, 1),
 }
 
 return methods

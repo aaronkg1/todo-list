@@ -99,6 +99,7 @@ h2 {
     gap: 10px;
     justify-self: flex-start;
     width: fit-content;
+    cursor: pointer;
 }
 
 .projects {
