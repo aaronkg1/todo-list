@@ -42,54 +42,13 @@
             </div>
         </div>
         <div class="task-display">
-            <h1 id="project-title">Project Title</h1>
+            <h1 id="project-title"></h1>
             <div class="project-list">
                 <table class="project-table">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Description</th>
-                            <th>Due-Date</th>
-                            <th>Priority</th>
-                            <th>Completed?</th>
-                        </tr>
-                    </thead>    
-                        <tr>
-                            <td>Brush Teeth</td>
-                            <td>Brush Them Teeth</td>
-                            <td><input type="date" class="date-picker"></td>
-                            <td><select name="priority" id="task-priority">
-                                <option value="1">Low</option>
-                                <option value="2">Medium</option>
-                                <option value="3">High</option>
-                            </td>
-                            <td><input type="checkbox" name="subtask"></td>
-                        </tr>
-                        <tr>
-                            <td>Brush Teeth</td>
-                            <td>Brush Them Teeth</td>
-                            <td><input type="date" class="date-picker"></td>
-                            <td><select name="priority" id="task-priority">
-                                <option value="1">Low</option>
-                                <option value="2">Medium</option>
-                                <option value="3">High</option>
-                            </td>
-                            <td><input type="checkbox" name="subtask"></td>
-                        </tr>
-                        <tr>
-                            <td>Brush Teeth</td>
-                            <td>Brush Them Teeth</td>
-                            <td><input type="date" class="date-picker"></td>
-                            <td><select name="priority" id="lang">
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                            </td>
-                            <td><input type="checkbox" name="subtask"></td>
-                        </tr>
+                    
                 </table>
             </div>
-            <button id="new-task">New Task</button>
+            <button id="new-task" class="hidden">New Task</button>
         <div class="task-module-container hidden">
             <div id="task-module">
                 <h2>New Task</h2>
@@ -102,7 +61,7 @@
                     </div>
                     <div class="form-right form-element">
                         <label for="due-date">Due Date: </label>
-                        <input type="date" name="due-date" id="due-date" class="form-control">
+                        <input type="datetime-local" name="due-date" id="due-date" class="form-control">
                         <label for="priority">Priority: </label>
                         <select name="priority" id="priority" class="form-select">
                             <option value="Low">Low</option>
