@@ -10,8 +10,6 @@ import {checkForLocalStorage} from "./local-storage.js"
 
 
 
-
 buttonInit();
-checkForLocalStorage();
 
 

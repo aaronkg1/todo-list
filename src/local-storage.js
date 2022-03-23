@@ -1,25 +1,24 @@
 const projectArray = [];
-
 let activeProject;
 
-const checkForLocalStorage = () => {
+
+const checkForLocalStorage = (() => {
     if (localStorage.getItem('array') == null) {
         localStorage.setItem('array', '[]'); 
         }
 
-}
+})();
 
-    let oldArray = JSON.parse(localStorage.getItem('array'));
+let oldArray = JSON.parse(localStorage.getItem('array'));
 
-    const saveLocally = (data) => {
-    
-    oldArray.push(data)
+    const saveLocally = () => {
     
     localStorage.setItem('array', JSON.stringify(oldArray));
+    oldArray = JSON.parse(localStorage.getItem('array'));
 }
 
     
 
-export {projectArray, activeProject, checkForLocalStorage, oldArray, saveLocally}
+export {projectArray, activeProject, oldArray, saveLocally}
 
 
