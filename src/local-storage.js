@@ -1,5 +1,7 @@
 const projectArray = [];
 let activeProject;
+let tasksToday;
+let tasksThisWeek;
 
 
 const checkForLocalStorage = (() => {
@@ -19,6 +21,6 @@ let oldArray = JSON.parse(localStorage.getItem('array'));
 
     
 
-export {projectArray, activeProject, oldArray, saveLocally}
+export {projectArray, activeProject, oldArray, saveLocally, tasksToday, tasksThisWeek}
 
 
