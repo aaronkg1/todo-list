@@ -11,6 +11,7 @@ const taskModule = document.querySelector('.task-module-container');
 const addProjectButton = document.querySelector('#add-project');
 const cancelAddTask = document.querySelector('#cancel');
 const addTaskToProject = document.querySelector('#add-task');
+const toggleCompleted = document.querySelector('#completed');
 const title = document.querySelector('#title');
 const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
@@ -144,6 +145,7 @@ const viewLocalProject = () => {
 
    
     addSubtask.classList.remove('hidden');
+    toggleCompleted.classList.remove('hidden');
     taskTable.innerHTML = '';
 
     if (activeProject.subTasks[0] == null) {
@@ -177,7 +179,12 @@ const viewLocalProject = () => {
 
 
     activeProject.subTasks.forEach(subtask => {
+       
+
         const tableRow = document.createElement('tr');
+        if (subtask.completed == true) {
+            tableRow.classList.add('completed');
+        }
         const taskTitle = document.createElement('td')
         const taskDescription = document.createElement('td')
         const dueDate = document.createElement('td')
@@ -280,8 +287,8 @@ const viewLocalProject = () => {
                 viewLocalProject();
             })
         })
-        
-        
+
+       
     });  
     }
 }
@@ -356,6 +363,12 @@ const buttonInit = () => {
         projectList.classList.add('hidden');
         expandButton.textContent = 'expand_less';
      });
+     toggleCompleted.addEventListener('click', () => {
+        const completedTasks = document.querySelectorAll('.completed')
+        completedTasks.forEach(task => {
+            task.classList.toggle('hidden');
+        })
+    })
 }
 
 const createDefault = () => {
@@ -420,6 +433,9 @@ const findTasksDueToday = (array) => {
 
 todaysTasks.forEach(project => {
         const tableRow = document.createElement('tr');
+        if (project[1].completed == true) {
+            tableRow.classList.add('completed');
+        }
         const projectTitle = document.createElement('td');
         projectTitle.classList.add('pointer');
         const subtaskTitle = document.createElement('td');

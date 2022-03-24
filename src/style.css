@@ -139,7 +139,7 @@ h2 {
     gap: 20px;
 }
 
-#new-task {
+button {
     max-width: fit-content;
 }
 
