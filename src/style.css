@@ -118,6 +118,8 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 
@@ -146,6 +148,7 @@ h2 {
     table-layout: fixed;
     text-align: center;
     margin-top: 50px;
+    display: inline-block;
 }
 
 
@@ -165,6 +168,12 @@ h2 {
     background-color: rgb(167, 233, 233);
     font-size: 1.5rem;
 }
+.project-table th {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 .project-table tr {
     min-height: fit-content; 
@@ -175,10 +184,16 @@ h2 {
     font-size: 1.1rem;
     padding-top: 20px;
     padding-bottom: 20px;
-    word-wrap: break-word;
-    
-    
+    padding-left: 50px;
+    padding-right: 50px;
+    cursor: pointer;
 }
+
+.project-table input, .project-table textarea {
+    font-size: 1.1rem;
+}
+
+
 
 .task-module-container {
     background-color: rgba(245, 245, 220, 0.331);
@@ -267,4 +282,13 @@ h2 {
 
 .hover-appear:hover {
     cursor: pointer;
+}
+
+
+.pointer {
+    cursor: pointer;
+}
+
+#error-messages {
+    color: red;
 }

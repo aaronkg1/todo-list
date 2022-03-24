@@ -14,7 +14,6 @@ getDueDate: () => state.dueDate,
 getPriority: () =>  state.priority,
 setCompleted: (boolean) => state.completed = boolean,
 getCompleted: () => state.completed,
-extendDueDate: () => state.dueDate = addHours(state.dueDate, 1),
 }
 
 return methods
@@ -49,6 +48,7 @@ composite.setTitle(title);
 composite.setDescription(description);
 composite.setDueDate(dueDate);
 composite.setPriority(priority);
+composite.setCompleted(completed);
 return Object.assign(composite, newTodo);
 
 }
