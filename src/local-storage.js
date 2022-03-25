@@ -19,7 +19,6 @@ let oldArray = JSON.parse(localStorage.getItem('array'));
     oldArray = JSON.parse(localStorage.getItem('array'));
 }
 
-    
 
 export {projectArray, activeProject, oldArray, saveLocally, tasksToday, tasksThisWeek}
 

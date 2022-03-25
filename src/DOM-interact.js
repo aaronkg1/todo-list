@@ -47,8 +47,6 @@ const newProject = (array) => {
             saveLocally();
             createListFromLocalStorage();
         }
-
-
     })
     addProjectSymbol.addEventListener('click', () => {
         for (let i = 0; i < array.length; i++) {
@@ -141,10 +139,27 @@ const toggleProjectList = () => {
     })
 }
 
+const changeProjectTitle = () => {
+        projectTitle.innerHTML = '';
+        const newTitle = document.createElement('input');
+        newTitle.value = activeProject.title;
+        projectTitle.appendChild(newTitle);
+        newTitle.focus();
+        newTitle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                activeProject.title = newTitle.value;
+                saveLocally();
+                createListFromLocalStorage();
+                viewLocalProject();
+            }
+        } )
+}
+
 const viewLocalProject = () => {
 
     projectTitle.textContent = activeProject.title;
 
+    projectTitle.addEventListener('click', changeProjectTitle);
 
     addSubtask.classList.remove('hidden');
     toggleCompleted.classList.remove('hidden');
@@ -395,6 +410,7 @@ const deleteProject = (project, array) => {
 
 const viewTasksDueToday = (array) => {
     projectTitle.textContent = `Today`;
+    projectTitle.removeEventListener('click', changeProjectTitle);
     tasksToday = [];
     array.forEach(item => {
         item.subTasks.forEach(subtask => {
@@ -404,7 +420,7 @@ const viewTasksDueToday = (array) => {
         })
 
         if (tasksToday[0] == null) {
-            taskTable.innerHTML = "No deadlines today"
+            taskTable.innerHTML = "No deadlines today";
             return
         }
         displayTasks(tasksToday)
@@ -413,6 +429,7 @@ const viewTasksDueToday = (array) => {
 
 const viewTasksDueThisWeek = (array) => {
     projectTitle.textContent = `Week`;
+    projectTitle.removeEventListener('click', changeProjectTitle);
     tasksThisWeek = [];
     array.forEach(item => {
         item.subTasks.forEach(subtask => {
@@ -426,12 +443,11 @@ const viewTasksDueThisWeek = (array) => {
         taskTable.innerHTML = "No deadlines this week"
         return
     }
-
    
     displayTasks(tasksThisWeek)
 }
 
- // displays due tasks 
+ 
 
 const displayTasks = (tasksDue) => {
 
