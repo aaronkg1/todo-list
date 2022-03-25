@@ -147,6 +147,10 @@ const changeProjectTitle = () => {
         newTitle.focus();
         newTitle.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
+                if (newTitle.value == '') {
+                    viewLocalProject();
+                }
+                else
                 activeProject.title = newTitle.value;
                 saveLocally();
                 createListFromLocalStorage();
@@ -235,6 +239,7 @@ const viewLocalProject = () => {
             taskDescription.textContent = subtask.description;
             datePicker.value = format(parseISO(taskDueDate), "yyyy-MM-dd'T'HH:mm");
             priorityInput.value = subtask.priority;
+            priorityInput.classList.add(subtask.priority);
             checkbox.checked = subtask.completed;
             const extendButton = document.createElement('button');
             extendButton.textContent = '1 hour';
@@ -513,6 +518,7 @@ const displayTasks = (tasksDue) => {
         priorityInput.appendChild(optionMedium);
         priorityInput.appendChild(optionHigh);
         priority.appendChild(priorityInput);
+        priorityInput.classList.add(project[1].priority);
         const completed = document.createElement('td');
         const checkbox = document.createElement('input');
         checkbox.setAttribute('type', 'checkbox');
@@ -573,6 +579,7 @@ const displayTasks = (tasksDue) => {
 
                 }
             });
+            displayTasks(tasksDue);
         })
         checkbox.addEventListener('change', () => {
 
