@@ -47,8 +47,8 @@ table {
 :root {
     font-family: 'Quicksand', sans-serif;
     font-size: 20px;
-    --primary-color: rgb(71, 250, 232);
-    --secondary-color: rgb(186, 240, 235);
+    --primary-color: rgb(99, 157, 147);
+    --secondary-color: rgb(199, 203, 202);
     --tertiary-color: rgb(232, 244, 242);
 }
 
@@ -83,6 +83,7 @@ h2 {
     -webkit-box-shadow: 0px 7px 11px -10px rgba(0,0,0,0.76); 
     box-shadow: 0px 7px 11px -10px rgba(0,0,0,0.76);
     z-index: 2;
+    color: white;
 }
 
 .sidebar {
@@ -97,6 +98,7 @@ h2 {
     padding-top: 30px;
     padding-left: 30px;
     gap: 10px;
+    color: rgb(11, 11, 11);
 }
 
 .sidebar-item {
@@ -172,7 +174,7 @@ button {
 
 
 .project-table thead {
-    background-color: rgb(167, 233, 233);
+    background-color: var(--secondary-color);
     font-size: 1.5rem;
 }
 .project-table th {
