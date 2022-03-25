@@ -37,6 +37,10 @@ const newProject = (array) => {
     projectList.appendChild(emptyProject);
     emptyProject.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
+            if (titleInput.value.length < 3) {
+                alert('Project name must be at least 3 characters long');
+                return
+            }
             for (let i = 0; i < array.length; i++) {
                 if (array[i].title == titleInput.value) {
                     alert('Project name already used')
@@ -49,6 +53,10 @@ const newProject = (array) => {
         }
     })
     addProjectSymbol.addEventListener('click', () => {
+        if (titleInput.value.length < 3) {
+            alert('Project name must be at least 3 characters long');
+            return
+        }
         for (let i = 0; i < array.length; i++) {
             if (array[i].title == titleInput.value) {
                 alert('Project name already used')
@@ -147,9 +155,11 @@ const changeProjectTitle = () => {
         newTitle.focus();
         newTitle.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                if (newTitle.value == '') {
-                    viewLocalProject();
+                if (newTitle.value.length < 3) {
+                    alert('Project name must be at least 3 characters long.')
+                    return
                 }
+                
                 else
                 activeProject.title = newTitle.value;
                 saveLocally();
@@ -162,7 +172,7 @@ const changeProjectTitle = () => {
 const viewLocalProject = () => {
 
     projectTitle.textContent = activeProject.title;
-
+    toggleCompleted.textContent = 'Hide Completed';
     projectTitle.addEventListener('click', changeProjectTitle);
 
     addSubtask.classList.remove('hidden');
@@ -390,6 +400,7 @@ const buttonInit = () => {
     });
 
     toggleCompleted.addEventListener('click', () => {
+        (toggleCompleted.textContent == 'Hide Completed') ? toggleCompleted.textContent = 'View Completed' : toggleCompleted.textContent = 'Hide Completed';
         const completedTasks = document.querySelectorAll('.completed')
         completedTasks.forEach(task => {
             task.classList.toggle('hidden');
@@ -415,6 +426,7 @@ const deleteProject = (project, array) => {
 
 const viewTasksDueToday = (array) => {
     projectTitle.textContent = `Today`;
+    toggleCompleted.textContent = 'Hide Completed';
     projectTitle.removeEventListener('click', changeProjectTitle);
     tasksToday = [];
     array.forEach(item => {
@@ -434,6 +446,7 @@ const viewTasksDueToday = (array) => {
 
 const viewTasksDueThisWeek = (array) => {
     projectTitle.textContent = `Week`;
+    toggleCompleted.textContent = 'Hide Completed';
     projectTitle.removeEventListener('click', changeProjectTitle);
     tasksThisWeek = [];
     array.forEach(item => {
